@@ -2,7 +2,7 @@ services:
   - type: web
     name: expense-tracker-api
     env: python
-    rootDir: expense_tracker/backend
+    rootDir: project_2_EXPENSE_TRACKER/expense_tracker/backend
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
