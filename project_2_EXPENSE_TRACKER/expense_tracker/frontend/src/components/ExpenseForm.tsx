@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { Plus } from "lucide-react";
+import { CircuitBoard, Plus } from "lucide-react";
 import type { ExpensePayload } from "../types/expense";
 
 const categories = ["Food", "Transport", "Utilities", "Housing", "Health", "Entertainment", "Shopping", "Other"];
@@ -34,29 +34,35 @@ export function ExpenseForm({ onSubmit, disabled }: ExpenseFormProps) {
   }
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
-      <div className="mb-5">
-        <h2 className="text-lg font-semibold text-slate-950">Add Expense</h2>
-        <p className="mt-1 text-sm text-slate-500">Record a new transaction.</p>
+    <section className="glass-panel animate-panel-in rounded-2xl p-5">
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300">Transaction Input</p>
+          <h2 className="mt-2 text-lg font-semibold text-white">Add Expense</h2>
+          <p className="mt-1 text-sm text-slate-400">Record a new ledger entry.</p>
+        </div>
+        <div className="hidden h-11 w-11 items-center justify-center rounded-xl border border-cyan-300/20 bg-cyan-400/10 text-cyan-200 sm:flex">
+          <CircuitBoard className="h-5 w-5 animate-soft-pulse" />
+        </div>
       </div>
       <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <label className="xl:col-span-2">
-          <span className="mb-2 block text-sm font-medium text-slate-700">Description</span>
+          <span className="mb-2 block text-sm font-medium text-slate-300">Description</span>
           <input
             value={description}
             onChange={(event) => setDescription(event.target.value)}
             required
             maxLength={255}
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-            placeholder="Lunch with client"
+            className="finance-input w-full rounded-xl px-4 py-3 text-sm outline-none transition focus:border-cyan-300/70 focus:ring-4 focus:ring-cyan-300/10"
+            placeholder="Terminal subscription"
           />
         </label>
         <label>
-          <span className="mb-2 block text-sm font-medium text-slate-700">Category</span>
+          <span className="mb-2 block text-sm font-medium text-slate-300">Category</span>
           <select
             value={category}
             onChange={(event) => setCategory(event.target.value)}
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            className="finance-input w-full rounded-xl px-4 py-3 text-sm outline-none transition focus:border-cyan-300/70 focus:ring-4 focus:ring-cyan-300/10"
           >
             {categories.map((item) => (
               <option key={item} value={item}>
@@ -66,7 +72,7 @@ export function ExpenseForm({ onSubmit, disabled }: ExpenseFormProps) {
           </select>
         </label>
         <label>
-          <span className="mb-2 block text-sm font-medium text-slate-700">Amount</span>
+          <span className="mb-2 block text-sm font-medium text-slate-300">Amount</span>
           <input
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
@@ -74,26 +80,26 @@ export function ExpenseForm({ onSubmit, disabled }: ExpenseFormProps) {
             min="0.01"
             step="0.01"
             type="number"
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            className="finance-input w-full rounded-xl px-4 py-3 text-sm outline-none transition focus:border-cyan-300/70 focus:ring-4 focus:ring-cyan-300/10"
             placeholder="125.50"
           />
         </label>
         <label>
-          <span className="mb-2 block text-sm font-medium text-slate-700">Date</span>
+          <span className="mb-2 block text-sm font-medium text-slate-300">Date</span>
           <input
             value={expenseDate}
             onChange={(event) => setExpenseDate(event.target.value)}
             required
             type="date"
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            className="finance-input w-full rounded-xl px-4 py-3 text-sm outline-none transition focus:border-cyan-300/70 focus:ring-4 focus:ring-cyan-300/10"
           />
         </label>
         <button
           type="submit"
           disabled={disabled}
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 md:self-end"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 text-sm font-semibold text-slate-950 shadow-[0_0_28px_rgba(34,211,238,0.22)] transition hover:-translate-y-0.5 hover:bg-cyan-200 disabled:cursor-not-allowed disabled:bg-cyan-800 disabled:text-cyan-200 md:self-end"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className={`h-4 w-4 ${disabled ? "animate-spin" : ""}`} />
           {disabled ? "Saving..." : "Add Expense"}
         </button>
       </form>
