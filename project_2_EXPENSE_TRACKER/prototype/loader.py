@@ -84,6 +84,7 @@ def display_expenses():
         print("-----------------------------------------")
         print("    NO EXPENSES HAVE BEEN RECORDED YET   ")
         print("-----------------------------------------")
+        return 1
         
     print()
     print()
@@ -102,41 +103,63 @@ def display_expenses():
         print("<"*15,">"*14)
         print()
 
+def continue_menu():
+    choice = input("Add another expense? (y/n): ").lower()
+
+    if choice == "y":
+        return True
+
+    check = input("View all expenses? (y/n): ").lower()
+
+    if check == "y":
+        display_expenses()
+
+    return False
+
+
 def run():
-    print("======================================================")
-    print("            WELCOME TO THE EXPENSE MANAGER           | ")
-    print("======================================================")
-    print("\n")
-    running=True
-    while running:
-        description, category,amount,date=enter_expense()
+    while True:
+        print("\n" + "=" * 50)
+        print("            WELCOME TO THE EXPENSE MANAGER")
+        print("=" * 50)
+        print("1. Add Expense")
+        print("2. View Expenses")
+        print("3. Exit")
+        print("=" * 50)
 
-        if validate_details(description, category,amount,date):
-            loader_json(description, category,amount,date)
-            print("==================================")
-            print("   EXPENSE LOADED SUCCESFULLY     ")
-            print("==================================")
-            choice=input("Do you wish to proceed? (y/n): ").lower()
+        choice = input("Enter your choice: ")
 
-            if choice != "y":
-                check=input("Would you like to see your previous expenses? (y/n): ").lower()
-                if check=="y":
-                    display_expenses()
-                    break
+        if choice == "1":
+            running = True
+
+            while running:
+                description, category, amount, date = enter_expense()
+
+                if validate_details(description, category, amount, date):
+                    loader_json(description, category, amount, date)
+
+                    print("==================================")
+                    print("   EXPENSE LOADED SUCCESSFULLY    ")
+                    print("==================================")
+
+                    if not continue_menu():
+                        running = False
+
+                else:
+                    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                    print("     AN ERROR OCCURRED. PLEASE TRY AGAIN BELOW   ")
+                    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                    print()
+
+        elif choice == "2":
+            display_expenses()
+
+        elif choice == "3":
+            print("\nThank you for using Expense Manager.")
+            break
+
         else:
-            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-            print("     AN ERROR OCCURED.PLEASE TRY AGAIN BELOW    ")
-            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-            print()
-            choice=input("Do you wish to proceed? (y/n): ").lower()
-
-            if choice != "y":
-                check=input("Would you like to see your previous expenses? (y/n): ").lower()
-                if check=="y":
-                    display_expenses()
-                    break
-
-            continue
+            print("Invalid option. Please choose 1, 2 or 3.")
 
 if __name__ == "__main__":
     run()

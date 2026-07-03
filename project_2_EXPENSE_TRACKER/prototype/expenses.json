@@ -28,5 +28,11 @@
         "category": "Studies",
         "amount": 14550.0,
         "date": "01/01/2026"
+    },
+    {
+        "description": "Lunch",
+        "category": "food",
+        "amount": 40.0,
+        "date": "01/03/2005"
     }
 ]
