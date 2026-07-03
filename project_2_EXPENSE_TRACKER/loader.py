@@ -3,12 +3,6 @@ from datetime import datetime
 import json
 
 
-print("======================================================")
-print("            WELCOME TO THE EXPENSE MANAGER            ")
-print("======================================================")
-print("\n")
-
-
 def enter_expense():
     description=input("Describe the expense (ie. Lunch, Swimming e.t.c): ")
     print()
@@ -24,7 +18,11 @@ def enter_expense():
 def validate_details(description,category,amount,date):
     date_pattern=r"^\d{2}\/(0[1-9]|1[0-2])\/\d{4}$"
     if not re.fullmatch(date_pattern,date):
-        print("The date must be in the format of DD/MM/YYYY")
+        print()
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print("  The date must be in the format of DD/MM/YYYY   ")
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print()
         return False
     else:
         try:
@@ -38,13 +36,19 @@ def validate_details(description,category,amount,date):
     if description and category:
         pass
     else:
-        print("Check if description or category is missing")
+        print()
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print("   Check if description or category is missing   ")
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print()
         return False
 
     if re.fullmatch(r"^\d+(\.\d+)?$",amount):
         pass
     else:
-        print("Invalid amount details re enter details")
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print("    Invalid amount details re enter details      ")
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
         return False
     
     return True
@@ -70,7 +74,39 @@ def loader_json(description,category,amount,date):
 
     return True
 
+
+def display_expenses():
+
+    try:
+        with open("expenses.json","r") as file:
+            data=json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        print("-----------------------------------------")
+        print("    NO EXPENSES HAVE BEEN RECORDED YET   ")
+        print("-----------------------------------------")
+        
+    print()
+    print()
+    print("="*30)
+    print("     YOUR EXPENSES     ")
+    print("="*30)
+
+    
+    for i,exp in enumerate(data,start=1):
+
+        print(f"Expense_no  :{i}")
+        print(f"Description : {exp['description']}")
+        print(f"Category    : {exp['category']}")
+        print(f"Amount      : {exp['amount']:.2f}")
+        print(f"Date        : {exp['date']}")
+        print("<"*15,">"*14)
+        print()
+
 def run():
+    print("======================================================")
+    print("            WELCOME TO THE EXPENSE MANAGER           | ")
+    print("======================================================")
+    print("\n")
     running=True
     while running:
         description, category,amount,date=enter_expense()
@@ -83,10 +119,23 @@ def run():
             choice=input("Do you wish to proceed? (y/n): ").lower()
 
             if choice != "y":
-                break 
-
+                check=input("Would you like to see your previous expenses? (y/n): ").lower()
+                if check=="y":
+                    display_expenses()
+                    break
         else:
-            print("An error occured. Please try again")
+            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+            print("     AN ERROR OCCURED.PLEASE TRY AGAIN BELOW    ")
+            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+            print()
+            choice=input("Do you wish to proceed? (y/n): ").lower()
+
+            if choice != "y":
+                check=input("Would you like to see your previous expenses? (y/n): ").lower()
+                if check=="y":
+                    display_expenses()
+                    break
+
             continue
 
 if __name__ == "__main__":
