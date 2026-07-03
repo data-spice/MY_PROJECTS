@@ -36,7 +36,7 @@ def load_csv_to_postgres(file_path: Path, db: Database):
     print(f"Inserted {len(df)} rows into bronze.{table_name}")
 
 
-def main():
+def load_bronze():
 
     csv_files = list(BRONZE_DIR.glob("*.csv"))
 
@@ -62,4 +62,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    load_bronze()
